@@ -58,13 +58,13 @@
           :label="t('buttons.switchView')"
           @action="switchView"
         />
-        <action
+        <!--<action
           v-if="headerButtons.download"
           icon="file_download"
           :label="t('buttons.download')"
           @action="download"
           :counter="fileStore.selectedCount"
-        />
+        />-->
         <action
           v-if="headerButtons.upload"
           icon="file_upload"

@@ -1,10 +1,7 @@
 <template>
   <div
     id="previewer"
-    @touchmove.prevent.stop
-    @wheel.prevent.stop
-    @mousemove="toggleNavigation"
-    @touchstart="toggleNavigation"
+    
   >
     <header-bar v-if="isPdf || isEpub || showNav">
       <action icon="close" :label="$t('buttons.close')" @action="close()" />
@@ -32,6 +29,7 @@
           @action="deleteFile"
           id="delete-button"
         />
+        <!--
         <action
           :disabled="layoutStore.loading"
           v-if="authStore.user?.perm.download"
@@ -45,6 +43,7 @@
           :label="$t('buttons.info')"
           show="info"
         />
+    -->
       </template>
     </header-bar>
 
@@ -104,13 +103,14 @@
           :options="videoOptions"
         >
         </VideoPlayer>
-        <object v-else-if="isPdf" class="pdf" :data="raw"></object>
+        <div v-else-if="isPdf" style="height: 100%; padding-top: 4em;" id="app"><vue-pdf-app :pdf="raw" :config="pdfConfig"></vue-pdf-app></div>
         <div v-else-if="fileStore.req?.type == 'blob'" class="info">
           <div class="title">
             <i class="material-icons">feedback</i>
             {{ $t("files.noPreview") }}
           </div>
           <div>
+            <!--
             <a target="_blank" :href="downloadUrl" class="button button--flat">
               <div>
                 <i class="material-icons">file_download</i
@@ -123,16 +123,19 @@
               class="button button--flat"
               v-if="!fileStore.req?.isDir"
             >
+          
               <div>
                 <i class="material-icons">open_in_new</i
                 >{{ $t("buttons.openFile") }}
               </div>
             </a>
+          -->
           </div>
         </div>
       </div>
     </template>
 
+  <!--
     <button
       @click="prev"
       @mouseover="hoverNav = true"
@@ -155,6 +158,7 @@
     </button>
     <link rel="prefetch" :href="previousRaw" />
     <link rel="prefetch" :href="nextRaw" />
+  -->
   </div>
 </template>
 
@@ -173,11 +177,25 @@ import HeaderBar from "@/components/header/HeaderBar.vue";
 import Action from "@/components/header/Action.vue";
 import ExtendedImage from "@/components/files/ExtendedImage.vue";
 import VideoPlayer from "@/components/files/VideoPlayer.vue";
+import VuePdfApp from "vue3-pdf-app";
+// import this to use default icons for buttons
+import "vue3-pdf-app/dist/icons/main.css";
 import { VueReader } from "vue-reader";
 import { computed, inject, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import type { Rendition } from "epubjs";
 import { getTheme } from "@/utils/theme";
+
+const pdfConfig = ref({
+  secondaryToolbar: {
+    cursorSelectTool: false,
+    cursorHandTool: false,
+    documentProperties: false,
+  },
+  toolbar: {
+    toolbarViewerRight: false,
+  }
+})
 
 const location = useStorage("book-progress", 0, undefined, {
   serializer: {
@@ -293,14 +311,14 @@ watch(route, () => {
 
 // Specify hooks
 onMounted(async () => {
-  window.addEventListener("keydown", key);
-  if (fileStore.oldReq) {
-    listing.value = fileStore.oldReq.items;
-    updatePreview();
-  }
+  //window.addEventListener("keydown", key);
+  //if (fileStore.oldReq) {
+  //  listing.value = fileStore.oldReq.items;
+  //  updatePreview();
+  //}
 });
 
-onBeforeUnmount(() => window.removeEventListener("keydown", key));
+//onBeforeUnmount(() => window.removeEventListener("keydown", key));
 
 // Specify methods
 const deleteFile = () => {
@@ -333,21 +351,22 @@ const next = () => {
   router.replace({ path: nextLink.value });
 };
 
-const key = (event: KeyboardEvent) => {
-  if (layoutStore.currentPrompt !== null) {
-    return;
-  }
-  if (event.which === 13 || event.which === 39) {
-    // right arrow
-    if (hasNext.value) next();
-  } else if (event.which === 37) {
-    // left arrow
-    if (hasPrevious.value) prev();
-  } else if (event.which === 27) {
-    // esc
-    close();
-  }
-};
+
+//const key = (event: KeyboardEvent) => {
+//  if (layoutStore.currentPrompt !== null) {
+//    return;
+//  }
+//  if (event.which === 13 || event.which === 39) {
+//    // right arrow
+//    if (hasNext.value) next();
+//  } else if (event.which === 37) {
+//    // left arrow
+//    if (hasPrevious.value) prev();
+//  } else if (event.which === 27) {
+//    // esc
+//    close();
+//  }
+//};
 const updatePreview = async () => {
   if (player.value && player.value.paused && !player.value.ended) {
     autoPlay.value = false;

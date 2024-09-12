@@ -58,6 +58,11 @@
           :label="t('buttons.switchView')"
           @action="switchView"
         />
+        <action
+          icon="refresh"
+          label="Refresh"
+          @action="refresh"
+        />
         <!--<action
           v-if="headerButtons.download"
           icon="file_download"
@@ -73,11 +78,13 @@
           @action="uploadFunc"
         />
         <action icon="info" :label="t('buttons.info')" show="info" />
+        <!--
         <action
           icon="check_circle"
           :label="t('buttons.selectMultiple')"
           @action="toggleMultipleSelection"
         />
+      -->
       </template>
     </header-bar>
 
@@ -913,6 +920,10 @@ const switchView = async () => {
   setItemWeight();
   fillWindow();
 };
+
+const refresh = () => {
+  window.location.reload();
+}
 
 const uploadFunc = () => {
   if (

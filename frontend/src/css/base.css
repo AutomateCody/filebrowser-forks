@@ -94,9 +94,13 @@ main {
 }
 
 .breadcrumbs {
-  height: 3em;
+  height: 4em;
   background: var(--background);
   border-bottom: 1px solid var(--divider);
+}
+
+.breadcrumbs i {
+  font-size: 2rem;
 }
 
 .breadcrumbs span,
@@ -110,6 +114,7 @@ main {
   color: inherit;
   transition: 0.1s ease-in;
   border-radius: 0.125em;
+  font-size: 40px;
 }
 
 html[dir="rtl"] .breadcrumbs a {

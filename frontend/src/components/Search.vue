@@ -26,9 +26,10 @@
     <div id="result" ref="result">
       <div>
         <template v-if="isEmpty">
-          <p>{{ text }}</p>
+          <!--<p>{{ text }}</p>-->
 
           <template v-if="prompt.length === 0">
+            <!--
             <div class="boxes">
               <h3>{{ $t("search.types") }}</h3>
               <div>
@@ -45,6 +46,7 @@
                 </div>
               </div>
             </div>
+            -->
           </template>
         </template>
         <ul v-show="results.length > 0">

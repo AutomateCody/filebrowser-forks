@@ -23,6 +23,7 @@ export const toggleTheme = (): void => {
 };
 
 export const getMediaPreference = (): UserTheme => {
+  return "dark";
   const hasDarkPreference = window.matchMedia(
     "(prefers-color-scheme: dark)"
   ).matches;

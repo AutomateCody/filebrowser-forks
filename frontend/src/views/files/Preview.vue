@@ -103,7 +103,7 @@
           :options="videoOptions"
         >
         </VideoPlayer>
-        <div v-else-if="isPdf" style="height: 100%; padding-top: 4em;" id="app"><vue-pdf-app :pdf="raw" :config="pdfConfig"></vue-pdf-app></div>
+        <div v-else-if="isPdf" style="height: 100%; padding-top: 4em;" id="app"><vue-pdf-app :pdf="raw" :config="pdfConfig" theme="dark"></vue-pdf-app></div>
         <div v-else-if="fileStore.req?.type == 'blob'" class="info">
           <div class="title">
             <i class="material-icons">feedback</i>
@@ -187,6 +187,7 @@ import type { Rendition } from "epubjs";
 import { getTheme } from "@/utils/theme";
 
 const pdfConfig = ref({
+  sidebar: false,
   secondaryToolbar: {
     cursorSelectTool: false,
     cursorHandTool: false,
@@ -447,3 +448,14 @@ const close = () => {
 
 const download = () => window.open(downloadUrl.value);
 </script>
+<style>
+.pdf-app.dark {
+  --sidebar-width: 0;
+  --pdf-app-background-color: var(--background);
+  --pdf-toolbar-color: var(--surfacePrimary);
+}
+
+.verticalToolbarSeparator {
+  display: none;
+}
+</style>

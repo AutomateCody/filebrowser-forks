@@ -196,11 +196,12 @@ html[dir="rtl"] #listing {
 }
 
 #listing.list .item .name {
-  width: 50%;
+  width: 75%;
 }
 
 #listing.list .item .size {
   width: 25%;
+  display: none;
 }
 
 #listing .item.header {

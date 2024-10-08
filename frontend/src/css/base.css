@@ -94,7 +94,7 @@ main {
 }
 
 .breadcrumbs {
-  height: 5em;
+  height: 4em;
   background: var(--background);
   border-bottom: 1px solid var(--divider);
 }

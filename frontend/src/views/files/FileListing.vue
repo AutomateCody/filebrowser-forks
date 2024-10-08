@@ -9,6 +9,7 @@
         :label="t('buttons.search')"
         @action="openSearch()"
       />
+      <Battery />
 
       <template #actions>
         <template v-if="!isMobile">
@@ -297,6 +298,7 @@ import { Base64 } from "js-base64";
 
 import HeaderBar from "@/components/header/HeaderBar.vue";
 import Action from "@/components/header/Action.vue";
+import Battery from "@/components/header/Battery.vue";
 import Search from "@/components/Search.vue";
 import Item from "@/components/files/ListingItem.vue";
 import {

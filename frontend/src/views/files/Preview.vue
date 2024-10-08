@@ -3,7 +3,7 @@
     id="previewer"
     
   >
-    <header-bar v-if="isPdf || isEpub || showNav">
+    <header-bar v-if="(isEpub || showNav) && !isPdf">
       <action icon="close" :label="$t('buttons.close')" @action="close()" />
       <title>{{ name }}</title>
       <action
@@ -103,7 +103,7 @@
           :options="videoOptions"
         >
         </VideoPlayer>
-        <div v-else-if="isPdf" style="height: 100%; padding-top: 4em;" id="app"><vue-pdf-app :pdf="raw" :config="pdfConfig" theme="dark"></vue-pdf-app></div>
+        <div v-else-if="isPdf" style="height: 100%; padding-top: 0;" id="app"><vue-pdf-app :pdf="raw" :config="pdfConfig" theme="dark"><template #toolbar-left-prepend><action icon="close" @action="close()" /></template></vue-pdf-app></div>
         <div v-else-if="fileStore.req?.type == 'blob'" class="info">
           <div class="title">
             <i class="material-icons">feedback</i>

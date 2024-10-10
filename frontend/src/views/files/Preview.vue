@@ -458,4 +458,48 @@ const download = () => window.open(downloadUrl.value);
 .verticalToolbarSeparator {
   display: none;
 }
+
+.vue-pdf-app-icon::before,
+.vue-pdf-app-icon::after {
+  font-size: 1.5rem !important;
+}
+
+
+.pdf-app #toolbarContainer {
+  height: 3em !important;
+}
+
+.pdf-app #toolbarContainer {
+  padding: 2px !important;
+}
+
+.pdf-app .toolbarButton {
+  width: 43px !important;
+  height: 3em !important;
+}
+
+.pdf-app .toolbarLabel {
+  margin-top: 10px !important;
+}
+
+.pdf-app .splitToolbarButtonSeparator {
+  padding: 13px 0 !important;
+}
+
+.pdf-app .toolbarField.pageNumber {
+  height: 3em !important;
+}
+
+.pdf-app[class] .dropdownToolbarButton > select {
+  height: 3em !important;
+}
+
+.pdf-app .dropdownToolbarButton::after {
+  top: 12px !important;
+}
+
+.pdf-app[class] .verticalToolbarSeparator {
+  height: 27px !important
+}
+
 </style>

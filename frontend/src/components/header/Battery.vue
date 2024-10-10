@@ -13,7 +13,7 @@
   
   const updateBatteryLevel = () => {
     if (typeof fully !== 'undefined' && fully.getBatteryLevel) {
-      batteryLevel.value = fully.getBatteryLevel();
+      batteryLevel.value = Number(fully.getBatteryLevel().toFixed(0));
     }
   };
   

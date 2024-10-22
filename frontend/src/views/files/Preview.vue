@@ -103,7 +103,7 @@
           :options="videoOptions"
         >
         </VideoPlayer>
-        <div v-else-if="isPdf" style="height: 100%; padding-top: 0;" id="app"><vue-pdf-app :pdf="raw" :config="pdfConfig" theme="dark"><template #toolbar-left-prepend><action icon="close" @action="close()" /></template></vue-pdf-app></div>
+        <div v-else-if="isPdf" style="height: 100%; padding-top: 0;" id="app"><pdfviewer :url="raw" @close="close"></pdfviewer></div>
         <div v-else-if="fileStore.req?.type == 'blob'" class="info">
           <div class="title">
             <i class="material-icons">feedback</i>
@@ -177,6 +177,7 @@ import HeaderBar from "@/components/header/HeaderBar.vue";
 import Action from "@/components/header/Action.vue";
 import ExtendedImage from "@/components/files/ExtendedImage.vue";
 import VideoPlayer from "@/components/files/VideoPlayer.vue";
+import pdfviewer from "@/components/files/pdfviewer.vue";
 import VuePdfApp from "vue3-pdf-app";
 // import this to use default icons for buttons
 import "vue3-pdf-app/dist/icons/main.css";
@@ -272,7 +273,7 @@ const hasPrevious = computed(() => previousLink.value !== "");
 const hasNext = computed(() => nextLink.value !== "");
 
 const downloadUrl = computed(() =>
-  fileStore.req ? api.getDownloadURL(fileStore.req, true) : ""
+  fileStore.req ? api.getDownloadURL(fileStore.req, false) : ""
 );
 
 const raw = computed(() => {

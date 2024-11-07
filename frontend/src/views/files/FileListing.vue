@@ -166,7 +166,7 @@
         id="listing"
         ref="listing"
         class="file-icons"
-        :class="authStore.user?.viewMode ?? ''"
+        :class="viewMode ?? ''"
       >
         <div>
           <div class="item header">
@@ -400,15 +400,24 @@ const modifiedIcon = computed(() => {
   return "arrow_upward";
 });
 
+//const viewIcon = computed(() => {
+//  const icons = {
+//    list: "view_module",
+//    mosaic: "grid_view",
+//    "mosaic gallery": "view_list",
+//  };
+//  return authStore.user === null
+//    ? icons["list"]
+//    : icons[authStore.user.viewMode];
+//});
+
 const viewIcon = computed(() => {
   const icons = {
     list: "view_module",
     mosaic: "grid_view",
     "mosaic gallery": "view_list",
   };
-  return authStore.user === null
-    ? icons["list"]
-    : icons[authStore.user.viewMode];
+  return icons[viewMode.value as keyof typeof icons];
 });
 
 const headerButtons = computed(() => {
@@ -899,6 +908,18 @@ const download = () => {
   });
 };
 
+const getCookie = (name: string): string | null => {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) {
+    const part = parts.pop();
+    if (part) {
+      return part.split(';').shift() || null;
+    }
+  }
+  return null;
+};
+
 const switchView = async () => {
   layoutStore.closeHovers();
 
@@ -908,20 +929,31 @@ const switchView = async () => {
     "mosaic gallery": "list",
   };
 
+  const newViewMode = modes[getCookie('viewMode') as keyof typeof modes ?? "list"] || "list";
+
   const data = {
     id: authStore.user?.id,
-    viewMode: modes[authStore.user?.viewMode ?? "list"] || "list",
+    viewMode: newViewMode,
   };
 
   // @ts-ignore
-  users.update(data, ["viewMode"]).catch($showError);
+  //users.update(data, ["viewMode"]).catch($showError);
 
   // @ts-ignore
-  authStore.updateUser(data);
+  //authStore.updateUser(data);
+
+  // Set the viewMode cookie to never expire
+  const expires = new Date();
+  expires.setFullYear(expires.getFullYear() + 100); // Set expiration date to 100 years in the future
+  document.cookie = `viewMode=${newViewMode}; expires=${expires.toUTCString()}; path=/;`;
+  
+  viewMode.value = newViewMode || 'list';
 
   setItemWeight();
   fillWindow();
+
 };
+
 
 const refresh = () => {
   window.location.reload();
@@ -970,4 +1002,14 @@ const fillWindow = (fit = false) => {
   // Set the number of displayed items
   showLimit.value = showQuantity > totalItems ? totalItems : showQuantity;
 };
+
+const viewMode = ref(getCookie('viewMode') || 'list');
+
+
+onMounted(() => {
+  viewMode.value = getCookie('viewMode') || 'list';
+});
+
+
+
 </script>

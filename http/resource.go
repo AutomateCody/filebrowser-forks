@@ -36,6 +36,17 @@ var resourceGetHandler = withUser(func(w http.ResponseWriter, r *http.Request, d
 
 	if file.IsDir {
 		file.Listing.Sorting = d.user.Sorting
+		sortParam := r.URL.Query().Get("sort")
+		ascParam := r.URL.Query().Get("asc")
+		fmt.Println("sortParam:", sortParam)
+		fmt.Println("ascParam:", ascParam)
+		
+        if sortParam != "" {
+            file.Listing.Sorting.By = sortParam
+        }
+		if ascParam != "" {
+			file.Listing.Sorting.Asc = ascParam == "true"
+		}
 		file.Listing.ApplySort()
 		return renderJSON(w, r, file)
 	}

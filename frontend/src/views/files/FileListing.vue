@@ -840,13 +840,24 @@ const sort = async (by: string) => {
     }
   }
 
-  try {
-    if (authStore.user?.id) {
+  //try {
+  //  if (authStore.user?.id) {
       // @ts-ignore
-      await users.update({ id: authStore.user?.id, sorting: { by, asc } }, [
-        "sorting",
-      ]);
-    }
+      //await users.update({ id: authStore.user?.id, sorting: { by, asc } }, [
+      //  "sorting",
+      //]);
+   //   const expires = new Date();
+   //   expires.setFullYear(expires.getFullYear() + 1); // Set expiration date to 1 year in the future
+   //   document.cookie = `sorting=${JSON.stringify({ by, asc })}; expires=${expires.toUTCString()}; path=/;`;
+   // }
+  //} catch (e: any) {
+  //  $showError(e);
+ // }
+
+  try {
+    const expires = new Date();
+    expires.setFullYear(expires.getFullYear() + 100); // Set expiration date to 1 year in the future
+    document.cookie = `sorting=${JSON.stringify({ by, asc })}; expires=${expires.toUTCString()}; path=/;`;
   } catch (e: any) {
     $showError(e);
   }

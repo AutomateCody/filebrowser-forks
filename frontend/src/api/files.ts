@@ -6,7 +6,21 @@ import { upload as postTus, useTus } from "./tus";
 export async function fetch(url: string) {
   url = removePrefix(url);
 
-  const res = await fetchURL(`/api/resources${url}`, {});
+  // Read sorting preferences from cookie
+  const sortingCookie = getCookie('sorting');
+  let sorting = { by: 'name', asc: true }; // Default sorting
+  if (sortingCookie) {
+    sorting = JSON.parse(sortingCookie);
+  }
+
+  const params = new URLSearchParams({
+    //exampleParam1: 'exampleValue1',
+    //exampleParam2: 'exampleValue2'
+    sort: sorting.by,
+    asc: sorting.asc.toString(),
+});
+
+  const res = await fetchURL(`/api/resources${url}?${params.toString()}`, {});
 
   const data = (await res.json()) as Resource;
   data.url = `/files${url}`;
@@ -215,3 +229,15 @@ export async function usage(url: string) {
 
   return await res.json();
 }
+
+const getCookie = (name: string): string | null => {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) {
+    const part = parts.pop();
+    if (part) {
+      return part.split(';').shift() || null;
+    }
+  }
+  return null;
+};

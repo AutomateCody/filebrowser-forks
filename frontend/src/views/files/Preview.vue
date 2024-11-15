@@ -178,26 +178,14 @@ import Action from "@/components/header/Action.vue";
 import ExtendedImage from "@/components/files/ExtendedImage.vue";
 import VideoPlayer from "@/components/files/VideoPlayer.vue";
 import pdfviewer from "@/components/files/pdfviewer.vue";
-import VuePdfApp from "vue3-pdf-app";
+// import VuePdfApp from "vue3-pdf-app";
 // import this to use default icons for buttons
-import "vue3-pdf-app/dist/icons/main.css";
 import { VueReader } from "vue-reader";
 import { computed, inject, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import type { Rendition } from "epubjs";
 import { getTheme } from "@/utils/theme";
 
-const pdfConfig = ref({
-  sidebar: false,
-  secondaryToolbar: {
-    cursorSelectTool: false,
-    cursorHandTool: false,
-    documentProperties: false,
-  },
-  toolbar: {
-    toolbarViewerRight: false,
-  }
-})
 
 const location = useStorage("book-progress", 0, undefined, {
   serializer: {
@@ -449,58 +437,3 @@ const close = () => {
 
 const download = () => window.open(downloadUrl.value);
 </script>
-<style>
-.pdf-app.dark {
-  --sidebar-width: 0;
-  --pdf-app-background-color: var(--background);
-  --pdf-toolbar-color: var(--surfacePrimary);
-}
-
-.verticalToolbarSeparator {
-  display: none;
-}
-
-.vue-pdf-app-icon::before,
-.vue-pdf-app-icon::after {
-  font-size: 1.5rem !important;
-}
-
-
-.pdf-app #toolbarContainer {
-  height: 3em !important;
-}
-
-.pdf-app #toolbarContainer {
-  padding: 2px !important;
-}
-
-.pdf-app .toolbarButton {
-  width: 43px !important;
-  height: 3em !important;
-}
-
-.pdf-app .toolbarLabel {
-  margin-top: 10px !important;
-}
-
-.pdf-app .splitToolbarButtonSeparator {
-  padding: 13px 0 !important;
-}
-
-.pdf-app .toolbarField.pageNumber {
-  height: 3em !important;
-}
-
-.pdf-app[class] .dropdownToolbarButton > select {
-  height: 3em !important;
-}
-
-.pdf-app .dropdownToolbarButton::after {
-  top: 12px !important;
-}
-
-.pdf-app[class] .verticalToolbarSeparator {
-  height: 27px !important
-}
-
-</style>
